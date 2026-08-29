@@ -1,9 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ProductAmount() {
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(
+    Number(localStorage.getItem("amount") ?? "0"),
+  );
+  const [note, setNote] = useState("");
+
+  useEffect(
+    function () {
+      localStorage.setItem("amount", String(amount));
+    },
+    [amount],
+  );
 
   function onClickPlus() {
     setAmount(amount + 1);
@@ -15,12 +25,25 @@ export default function ProductAmount() {
     }
   }
 
+  function onChangeNote(event: React.ChangeEvent<HTMLInputElement>) {
+    setNote(event.target.value);
+  }
+
   return (
     <div>
-      <button onClick={onClickPlus}>+</button>
-      <p>{amount}</p>
-      <button onClick={onClickMinus}>-</button>
-      <p>{amount}</p>
+      <div>
+        <button onClick={onClickPlus}>+</button>
+        <p>{amount}</p>
+        <button onClick={onClickMinus}>-</button>
+      </div>
+
+      <input
+        type="text"
+        placeholder="add note"
+        value={note}
+        onChange={onChangeNote}
+      />
+      <p>catatan : {note}</p>
     </div>
   );
 }
