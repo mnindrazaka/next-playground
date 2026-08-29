@@ -1,9 +1,30 @@
+import ProductCard from "@/components/products/ProductCard";
+import { fetchProducts } from "@/services/product";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const data = await fetchProducts();
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+        <button className="bg-blue-950 pl-2 pr-2 rounded-md">Ok</button>
+        <img src="/images/image.png" width="100" height="100" />
+        <a href="https://google.com">menuju ke google</a>
+        <a href="/products">ke halaman product html</a>
+        <Link href="/products">Ke halaman product</Link>
+
+        <div className="flex gap-4 justify-center flex-wrap">
+          {data.products.map((product) => {
+            return (
+              <ProductCard
+                title={product.title}
+                description={product.description}
+              />
+            );
+          })}
+        </div>
+
         <Image
           className="dark:invert h-5 w-[100px]"
           src="/next.svg"
@@ -20,6 +41,7 @@ export default function Home() {
             </code>{" "}
             file.
           </h1>
+          <h2>Hello World</h2>
           <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
             Looking for a starting point or more instructions? Head over to{" "}
             <a
