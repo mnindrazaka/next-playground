@@ -1,22 +1,18 @@
-import ProductCard from "@/components/products/ProductCard";
-import { fetchProducts } from "@/services/product";
+import ProductList from "@/components/products/ProductList";
+import { searchProducts } from "@/services/product";
 
-export default async function Products() {
-  const data = await fetchProducts();
+export type ProductsPageProps = {
+  searchParams: Promise<{ query: string }>;
+};
+
+export default async function ProductsPage(props: ProductsPageProps) {
+  const searchParams = await props.searchParams;
+  const data = await searchProducts(searchParams.query ?? "");
   return (
     <div>
       <h1>Products Page</h1>
       <p>Show all my products here</p>
-      <div className="flex gap-4 justify-center flex-wrap">
-        {data.products.map((product) => {
-          return (
-            <ProductCard
-              title={product.title}
-              description={product.description}
-            />
-          );
-        })}
-      </div>
+      <ProductList query={searchParams.query ?? ""} products={data.products} />
     </div>
   );
 }

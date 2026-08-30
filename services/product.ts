@@ -10,3 +10,11 @@ export async function fetchProducts() {
   const data: ProductResponse = await res.json();
   return data;
 }
+
+export async function searchProducts(query: string) {
+  const res = await fetch(
+    `http://localhost:3000/api/products/search?query=${query}`,
+  );
+  const data: ProductResponse = await res.json();
+  return data;
+}
